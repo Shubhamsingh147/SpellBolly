@@ -15,28 +15,7 @@ allprojects {
         jcenter()
     }
 }
-apply plugin: 'android'
-android {
-    signingConfigs {
-        config {
-            keyAlias 'androiddebugkey'
-            keyPassword 'androiddebugkey'
-            storeFile file('~/.android/debug.keystore')
-            storePassword 'androiddebugkey'
-        }
-    }
-    defaultConfig {
-        applicationId 'com.example.shubhamsingh.spellbolly'
-        versionCode 1
-        versionName '1.0'
-        minSdkVersion 15
-        targetSdkVersion 22
-    }
-    productFlavors {
-    }
-    compileSdkVersion 21
-    buildToolsVersion '22.0.1'
-}
+
 dependencies {
 }
 repositories {

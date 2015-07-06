@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">Spell Bolly</string>
-
+    <string name="facebook_app_id">1620097634925915</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
 </resources>
