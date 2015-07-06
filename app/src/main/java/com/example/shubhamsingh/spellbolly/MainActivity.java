@@ -2,11 +2,15 @@ package com.example.shubhamsingh.spellbolly;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
+
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
@@ -19,6 +23,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.util.Arrays;
@@ -26,6 +31,7 @@ import java.util.Arrays;
 public class MainActivity extends Activity {
     LoginButton loginButton;
     CallbackManager callbackManager;
+    SharedPreferences sharedpreferences;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,13 +51,29 @@ public class MainActivity extends Activity {
                                     JSONObject object,
                                     GraphResponse response) {
                                 // Application code
-                                Log.v("LoginActivity", response.toString());
+                                Log.v("LoginActivity", response.getRawResponse());
+                              //RawResponseFormat  {"id":"10206351166570658","name":"Ajeet Kumar","gender":"male"}
+                                sharedpreferences = getSharedPreferences("SpellBolly", Context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor = sharedpreferences.edit();
+                                try {
+                                    editor.putString("id", response.getJSONObject().getString("id").toString());
+                                    editor.putString("name", response.getJSONObject().getString("name").toString());
+                                    editor.putString("gender", response.getJSONObject().getString("gender").toString());
+                                    editor.commit();
+                                    Toast.makeText(MainActivity.this,"Login Successful", Toast.LENGTH_LONG).show();
+                                }
+                                catch (JSONException e)
+                                {
+                                    Toast.makeText(MainActivity.this,"Login UnSuccessful, Try Again", Toast.LENGTH_LONG).show();
+                                    e.printStackTrace();
+                                }
                             }
                         });
                 Bundle parameters = new Bundle();
                 parameters.putString("fields", "id,name,gender");
                 request.setParameters(parameters);
                 request.executeAsync();
+
             }
 
             @Override
